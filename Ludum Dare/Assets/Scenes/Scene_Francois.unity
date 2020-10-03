@@ -338,6 +338,7 @@ GameObject:
   - component: {fileID: 803078747}
   - component: {fileID: 803078746}
   - component: {fileID: 803078745}
+  - component: {fileID: 803078744}
   m_Layer: 0
   m_Name: Crate
   m_TagString: Pushable
@@ -345,6 +346,18 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &803078744
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 803078743}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd0d21c2421e9d8498ba1f81c744c3d4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!65 &803078745
 BoxCollider:
   m_ObjectHideFlags: 0
