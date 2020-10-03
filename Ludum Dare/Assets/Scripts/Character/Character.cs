@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Rewired;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.Callbacks;
@@ -7,6 +8,7 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class Character : MonoBehaviour
 {
+    Player rewiredPlayer;
     Rigidbody rb;
     float horizontalMove = 0f;
     public bool isGrounded = true;
@@ -35,6 +37,7 @@ public class Character : MonoBehaviour
     void Awake()
     {
         rb = GetComponent<Rigidbody>();
+        rewiredPlayer = ReInput.players.GetPlayer(0);
     }
 
     private void Start()
@@ -46,9 +49,9 @@ public class Character : MonoBehaviour
 
     private void Update()
     {
-        horizontalMove = Input.GetAxisRaw("Horizontal") * speed;
+        horizontalMove = rewiredPlayer.GetAxis("MoveHorizontal") * speed;
 
-        if (Input.GetKeyDown(KeyCode.Space) && !jump)
+        if (rewiredPlayer.GetButtonDown("Jump") && !jump)
         {
             jump = true;
         }
