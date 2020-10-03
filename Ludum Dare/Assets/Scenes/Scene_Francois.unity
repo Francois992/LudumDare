@@ -497,30 +497,12 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7419429135279333073, guid: 9f2b2932fba84ab42848ba26acf2f2e1, type: 3}
   m_PrefabInstance: {fileID: 7419429135695145986}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1632289745}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6a5efdcf92a2ee047b7b800942e98f4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &1632289745 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7419429135279333072, guid: 9f2b2932fba84ab42848ba26acf2f2e1, type: 3}
-  m_PrefabInstance: {fileID: 7419429135695145986}
-  m_PrefabAsset: {fileID: 0}
---- !u!65 &1632289746
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1632289745}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 0.2, z: 1}
-  m_Center: {x: 0, y: -0.6, z: 0}
 --- !u!1001 &2067609168
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -851,17 +833,13 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 131270784, guid: 9f2b2932fba84ab42848ba26acf2f2e1, type: 3}
+      propertyPath: m_IsKinematic
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7419429135279333072, guid: 9f2b2932fba84ab42848ba26acf2f2e1, type: 3}
       propertyPath: m_Name
       value: Door
-      objectReference: {fileID: 0}
-    - target: {fileID: 7419429135279333073, guid: 9f2b2932fba84ab42848ba26acf2f2e1, type: 3}
-      propertyPath: endPosition.x
-      value: -8.75
-      objectReference: {fileID: 0}
-    - target: {fileID: 7419429135279333073, guid: 9f2b2932fba84ab42848ba26acf2f2e1, type: 3}
-      propertyPath: endPosition.y
-      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 7419429135279333077, guid: 9f2b2932fba84ab42848ba26acf2f2e1, type: 3}
       propertyPath: m_LocalPosition.x
@@ -906,18 +884,6 @@ PrefabInstance:
     - target: {fileID: 7419429135279333077, guid: 9f2b2932fba84ab42848ba26acf2f2e1, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7419429135279333078, guid: 9f2b2932fba84ab42848ba26acf2f2e1, type: 3}
-      propertyPath: m_Size.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7419429135279333078, guid: 9f2b2932fba84ab42848ba26acf2f2e1, type: 3}
-      propertyPath: m_Center.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7419429135279333078, guid: 9f2b2932fba84ab42848ba26acf2f2e1, type: 3}
-      propertyPath: m_IsTrigger
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9f2b2932fba84ab42848ba26acf2f2e1, type: 3}
