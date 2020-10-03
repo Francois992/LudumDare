@@ -233,7 +233,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &58739536
 Transform:
   m_ObjectHideFlags: 0
@@ -686,7 +686,6 @@ MonoBehaviour:
   layerMask:
     serializedVersion: 2
     m_Bits: 256
-  ismoving: 0
 --- !u!1 &1261284619
 GameObject:
   m_ObjectHideFlags: 0
