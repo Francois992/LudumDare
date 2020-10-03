@@ -32,6 +32,7 @@ public class Character : MonoBehaviour
     private void Start()
     {
         initialGravity = Physics.gravity;
+        Physics.gravity = new Vector3(initialGravity.x, Physics.gravity.y * 3, initialGravity.z);
     }
 
     private void Update()
@@ -57,7 +58,6 @@ public class Character : MonoBehaviour
         if (isGrounded && jump)
         {
             rb.AddForce(Vector3.up * jumpForce);
-            Physics.gravity = new Vector3(initialGravity.x, Physics.gravity.y *2, initialGravity.z);
             isGrounded = false;
         }
 
@@ -68,7 +68,6 @@ public class Character : MonoBehaviour
             if (Physics.Raycast(transform.position, Vector3.down, out hit, .5f, layerMask))
             {
                 Debug.Log("Did hit the ground");
-                Physics.gravity = initialGravity;
                 isGrounded = true;
             }
             else
