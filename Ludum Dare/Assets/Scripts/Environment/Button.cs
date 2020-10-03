@@ -1,10 +1,12 @@
-﻿using System;
+﻿using Rewired;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Button : MonoBehaviour
 {
+    public Player player;
     [SerializeField] private Activatable activatable;
 
     private bool isActivatable = false;
@@ -19,7 +21,7 @@ public class Button : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (isActivatable && Input.GetKey(KeyCode.E))
+        if (isActivatable && player.GetButton("Interact"))
         {
             Activate();
         }
@@ -29,6 +31,7 @@ public class Button : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
+            player = other.GetComponent<Character>().rewiredPlayer;
             isActivatable = true;
         }
     }
@@ -37,6 +40,7 @@ public class Button : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
+            player = null;
             isActivatable = false;
         }
     }
