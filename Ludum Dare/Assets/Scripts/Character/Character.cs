@@ -8,7 +8,7 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class Character : MonoBehaviour
 {
-    Player rewiredPlayer;
+    public Player rewiredPlayer;
     Rigidbody rb;
     float horizontalMove = 0f;
     public bool isGrounded = true;
@@ -16,6 +16,9 @@ public class Character : MonoBehaviour
 
     public float jumpForce = 400f;
     public float speed = 10.0f;
+    private float normalSpeed = 10.0f;
+
+    public float speedPush = 5.0f;
     public float fallSpeed = 10.0f;
     public LayerMask layerMask;
 
@@ -26,6 +29,11 @@ public class Character : MonoBehaviour
 
     Vector3 initialGravity;
 
+    private Vector3 OrientationFacing = Vector3.right;
+
+    private bool isPushing = false;
+    private Pushable pushedObject;
+
     void Awake()
     {
         rb = GetComponent<Rigidbody>();
@@ -34,6 +42,7 @@ public class Character : MonoBehaviour
 
     private void Start()
     {
+        normalSpeed = speed;
         initialGravity = Physics.gravity;
         Physics.gravity = new Vector3(initialGravity.x, Physics.gravity.y * 3, initialGravity.z);
     }
@@ -47,15 +56,46 @@ public class Character : MonoBehaviour
             jump = true;
         }
 
+        if (horizontalMove > 0) OrientationFacing = Vector3.right;
+        else if (horizontalMove < 0) OrientationFacing = Vector3.left;
 
+        CheckForPushable();
+
+        if (isPushing)
+        {
+            if (!rewiredPlayer.GetButton("Interact"))
+            {
+                isPushing = false;
+                speed = normalSpeed;
+                pushedObject = null;
+            }
+        }
     }
 
     void FixedUpdate()
     {
         Move(horizontalMove);
-        Jump();
+        if(!isPushing)Jump();
         jump = false;
         //UpdateGravity();
+    }
+
+    private void CheckForPushable()
+    {
+        RaycastHit hit;
+
+        if (Physics.Raycast(transform.position, OrientationFacing, out hit, .5f))
+        {
+            if (hit.transform.CompareTag("Pushable"))
+            {
+                if (rewiredPlayer.GetButton("Interact"))
+                {
+                    isPushing = true;
+                    pushedObject = hit.transform.GetComponent<Pushable>();
+                }
+            }
+        }
+       
     }
 
     private void Jump()
@@ -85,6 +125,12 @@ public class Character : MonoBehaviour
     void Move(float dirX)
     {
         rb.MovePosition(new Vector2(transform.position.x + (dirX * Time.fixedDeltaTime), transform.position.y));
+
+        if (isPushing)
+        {
+            speed = speedPush;
+            pushedObject.transform.position = Vector3.MoveTowards(pushedObject.transform.position, new Vector2(pushedObject.transform.position.x + horizontalMove * Time.deltaTime, pushedObject.transform.position.y), speed *Time.deltaTime);
+        }
         //rb.velocity = new Vector2(rb.velocity.x, verticalSpeed);
     }
 
