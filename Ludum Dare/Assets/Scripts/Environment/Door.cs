@@ -1,4 +1,6 @@
-﻿using System.Collections;
+﻿using DG.Tweening;
+using Rewired;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,7 +11,7 @@ public class Door : Activatable
 
     [SerializeField] private float moveDuration = 2f;
 
-    private float elapsedTime;
+    [SerializeField] private TriggerZone triggerZone = null;
 
     // Start is called before the first frame update
     void Start()
@@ -20,15 +22,17 @@ public class Door : Activatable
     // Update is called once per frame
     void Update()
     {
-        
+        if (!isActivated)
+        {
+            transform.DOMove(initialPos, moveDuration);
+            if(triggerZone.isTouching) transform.DOPause();
+        }      
     }
 
     public override void OnActivate()
     {
-        elapsedTime += Time.deltaTime;
-
-        float ratio = elapsedTime / moveDuration;
-
-        transform.position = Vector3.Lerp(initialPos, initialPos + endPosition, ratio);
+        transform.DOMove(endPosition, moveDuration);
     }
+
+    
 }

@@ -9,11 +9,13 @@ public class PressurePlate : MonoBehaviour
 
     private bool isActivatable = false;
     public Action Activate;
+    public Action Desactivate;
 
     // Start is called before the first frame update
     void Start()
     {
         Activate += activatable.OnActivate;
+        Activate += activatable.OnDesactivate;
     }
 
     // Update is called once per frame
@@ -22,10 +24,13 @@ public class PressurePlate : MonoBehaviour
         if (isActivatable)
         {
             GetComponent<Renderer>().material.color = Color.green;
+            activatable.isActivated = true;
+
             Activate?.Invoke();
         }
         else
         {
+            
             GetComponent<Renderer>().material.color = Color.red;
         }
     }
@@ -42,7 +47,9 @@ public class PressurePlate : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player") || other.gameObject.CompareTag("Pushable"))
         {
+            activatable.isActivated = false;
             isActivatable = false;
+            Desactivate?.Invoke();
         }
     }
 }
