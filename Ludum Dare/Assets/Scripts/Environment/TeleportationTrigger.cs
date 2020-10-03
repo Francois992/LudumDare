@@ -4,26 +4,27 @@ using UnityEngine;
 
 public class TeleportationTrigger : MonoBehaviour
 {
-    bool isTeleport = false;
-    static bool isInsideTrigger = false;
+    public bool isInsideTrigger = false;
 
-    public Transform otherTrigger;
+    public TeleportationTrigger otherTrigger;
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "Player" && !isTeleport)
+        if (otherTrigger.isInsideTrigger || isInsideTrigger)
+            return;
+
+        if (other.gameObject.tag == "Player")
         {
-            other.transform.position = new Vector2(otherTrigger.position.x, other.gameObject.transform.position.y);
-            isTeleport = true;
-            isInsideTrigger = true;
+            other.transform.position = new Vector2(otherTrigger.transform.position.x, other.gameObject.transform.position.y);
+            otherTrigger.isInsideTrigger = true;
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.tag == "Player" && isTeleport)
+        if (other.gameObject.tag == "Player")
         {
-            isTeleport = false;
+            isInsideTrigger = false;
         }
     }
 }
