@@ -110,7 +110,7 @@ public class Character : MonoBehaviour
 
         if (!jump)
         {
-            if (Physics.Raycast(transform.position, Vector3.down, out hit, .5f, layerMask))
+            if (Physics.Raycast(transform.position, Vector3.down, out hit, .55f, layerMask))
             {
                 Debug.Log("Did hit the ground");
                 isGrounded = true;
@@ -124,12 +124,12 @@ public class Character : MonoBehaviour
 
     void Move(float dirX)
     {
-        rb.MovePosition(new Vector2(transform.position.x + (dirX * Time.fixedDeltaTime), transform.position.y));
+        rb.MovePosition(new Vector3(transform.position.x + (dirX * Time.fixedDeltaTime), transform.position.y, transform.position.z));
 
         if (isPushing)
         {
             speed = speedPush;
-            pushedObject.transform.position = Vector3.MoveTowards(pushedObject.transform.position, new Vector2(pushedObject.transform.position.x + horizontalMove * Time.deltaTime, pushedObject.transform.position.y), speed *Time.deltaTime);
+            pushedObject.transform.position = Vector3.MoveTowards(pushedObject.transform.position, new Vector3(pushedObject.transform.position.x + horizontalMove * Time.deltaTime, pushedObject.transform.position.y, pushedObject.transform.position.z), speed *Time.deltaTime);
         }
         //rb.velocity = new Vector2(rb.velocity.x, verticalSpeed);
     }
