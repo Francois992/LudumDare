@@ -4,19 +4,14 @@ using UnityEngine;
 
 public class Activatable : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    public bool isActivated = false;
 
     virtual public void OnActivate()
+    {
+        Debug.Log("je suis actif");
+    }
+    
+    virtual public void OnDesactivate()
     {
         Debug.Log("je suis actif");
     }
