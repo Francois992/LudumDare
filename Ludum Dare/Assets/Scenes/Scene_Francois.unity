@@ -833,6 +833,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 131270784, guid: 9f2b2932fba84ab42848ba26acf2f2e1, type: 3}
+      propertyPath: m_IsKinematic
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7419429135279333072, guid: 9f2b2932fba84ab42848ba26acf2f2e1, type: 3}
       propertyPath: m_Name
       value: Door
