@@ -8,7 +8,7 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class Character : MonoBehaviour
 {
-    Player rewiredPlayer;
+    public Player rewiredPlayer;
     Rigidbody rb;
     float horizontalMove = 0f;
     public bool isGrounded = true;
@@ -63,7 +63,7 @@ public class Character : MonoBehaviour
 
         if (isPushing)
         {
-            if (!Input.GetKey(KeyCode.E))
+            if (!rewiredPlayer.GetButton("Interact"))
             {
                 isPushing = false;
                 speed = normalSpeed;
@@ -75,7 +75,7 @@ public class Character : MonoBehaviour
     void FixedUpdate()
     {
         Move(horizontalMove);
-        Jump();
+        if(!isPushing)Jump();
         jump = false;
         //UpdateGravity();
     }
@@ -88,7 +88,7 @@ public class Character : MonoBehaviour
         {
             if (hit.transform.CompareTag("Pushable"))
             {
-                if (Input.GetKey(KeyCode.E))
+                if (rewiredPlayer.GetButton("Interact"))
                 {
                     isPushing = true;
                     pushedObject = hit.transform.GetComponent<Pushable>();
@@ -129,7 +129,7 @@ public class Character : MonoBehaviour
         if (isPushing)
         {
             speed = speedPush;
-            pushedObject.transform.position = Vector3.MoveTowards(pushedObject.transform.position, new Vector2(pushedObject.transform.position.x + horizontalMove, pushedObject.transform.position.y), speed *Time.deltaTime);
+            pushedObject.transform.position = Vector3.MoveTowards(pushedObject.transform.position, new Vector2(pushedObject.transform.position.x + horizontalMove * Time.deltaTime, pushedObject.transform.position.y), speed *Time.deltaTime);
         }
         //rb.velocity = new Vector2(rb.velocity.x, verticalSpeed);
     }
