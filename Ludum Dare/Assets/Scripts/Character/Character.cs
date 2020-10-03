@@ -34,6 +34,8 @@ public class Character : MonoBehaviour
         {
             jump = true;
         }
+
+
     }
 
     void FixedUpdate()

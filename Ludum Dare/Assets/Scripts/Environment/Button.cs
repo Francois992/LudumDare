@@ -7,6 +7,7 @@ public class Button : MonoBehaviour
 {
     [SerializeField] private Activatable activatable;
 
+    private bool isActivatable = false;
     public Action Activate;
 
     // Start is called before the first frame update
@@ -18,9 +19,25 @@ public class Button : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKey(KeyCode.E))
+        if (isActivatable && Input.GetKey(KeyCode.E))
         {
             Activate();
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Player"))
+        {
+            isActivatable = true;
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.CompareTag("Player"))
+        {
+            isActivatable = false;
         }
     }
 }
