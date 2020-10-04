@@ -11,6 +11,7 @@ public class Character : MonoBehaviour
 {
     public static Character instance;
     public bool isFreezing = false;
+    public bool isExiting = false;
 
     public Player rewiredPlayer;
     Rigidbody rb;
@@ -61,16 +62,26 @@ public class Character : MonoBehaviour
     {
         normalSpeed = speed;
         initialGravity = Physics.gravity;
-        Physics.gravity = new Vector3(initialGravity.x, Physics.gravity.y * 3, initialGravity.z);
+        Physics.gravity = new Vector3(initialGravity.x, -9.8f * 3, initialGravity.z);
     }
 
     private void Update()
     {
-        horizontalMove = rewiredPlayer.GetAxis("MoveHorizontal") * speed;
-
-        if (rewiredPlayer.GetButtonDown("Jump") && !jump)
+        if (!isExiting)
         {
-            jump = true;
+            horizontalMove = rewiredPlayer.GetAxis("MoveHorizontal") * speed;
+        }
+        else
+        {
+            horizontalMove = 0;
+        }
+
+        if (!isExiting)
+        {
+            if (rewiredPlayer.GetButtonDown("Jump") && !jump)
+            {
+                jump = true;
+            }
         }
 
         if (horizontalMove > 0)
@@ -87,35 +98,41 @@ public class Character : MonoBehaviour
             if (!isPushing) transform.localScale = new Vector3(-1, transform.localScale.y, transform.localScale.z);
 
             animator.SetBool("Idle", false);
-            if(!isPushing) animator.SetBool("IsRunning", true);
+            if (!isPushing) animator.SetBool("IsRunning", true);
         }
-        else if(horizontalMove == 0){
+        else if (horizontalMove == 0)
+        {
             animator.SetBool("IsRunning", false);
             animator.SetBool("Idle", true);
         }
 
-        if(!jump && !isPushing)CheckForPushable();
+        if (!isExiting)
+            if (!jump && !isPushing) CheckForPushable();
 
-        
 
-        if (isPushing)
-        {
-            CheckPull();
-            animator.SetBool("Idle", false);
-
-            if (!rewiredPlayer.GetButton("Interact"))
+        if (!isExiting)
+            if (isPushing)
             {
-                isPushing = false;
-                speed = normalSpeed;
-                pushedObject = null;
-                animator.SetBool("Idle", true);
-                animator.SetBool("IsPush", false);
-                animator.SetBool("IsPull", false);
+                CheckPull();
+                animator.SetBool("Idle", false);
+
+                if (!rewiredPlayer.GetButton("Interact"))
+                {
+                    isPushing = false;
+                    speed = normalSpeed;
+                    pushedObject = null;
+                    animator.SetBool("Idle", true);
+                    animator.SetBool("IsPush", false);
+                    animator.SetBool("IsPull", false);
+                }
             }
-        }
 
         if (rewiredPlayer.GetButtonDown("EndTimeLoop"))
         {
+
+            if (isExiting)
+                return;
+
             if (!isFreezing)
             {
                 GameManager.instance.EndTimeLoop();
@@ -123,6 +140,14 @@ public class Character : MonoBehaviour
             }
         }
 
+        if (rewiredPlayer.GetButtonDown("Interact"))
+        {
+            if (!isExiting && ExitDoor.instance.interactable)
+            {
+                GameManager.instance.FinishedLevel();
+                isExiting = true;
+            }
+        }
     }
 
     void FixedUpdate()
@@ -137,7 +162,7 @@ public class Character : MonoBehaviour
     {
         RaycastHit hit;
 
-        if(OrientationFacing == OrientationStartPush)
+        if (OrientationFacing == OrientationStartPush)
         {
             animator.SetBool("IsPush", true);
             animator.SetBool("IsPull", false);
@@ -173,9 +198,9 @@ public class Character : MonoBehaviour
                     animator.SetBool("IsRunning", false);
                     animator.SetBool("Idle", false);
                 }
-                
+
             }
-            
+
         }
 
     }
@@ -191,9 +216,9 @@ public class Character : MonoBehaviour
     {
         if (isGrounded && jump)
         {
-            animator.SetBool("Jumping",true);
-            animator.SetBool("Idle",false);
-            animator.SetBool("IsRunning",false);
+            animator.SetBool("Jumping", true);
+            animator.SetBool("Idle", false);
+            animator.SetBool("IsRunning", false);
             rb.AddForce(Vector3.up * jumpForce);
             isGrounded = false;
         }
@@ -226,18 +251,19 @@ public class Character : MonoBehaviour
 
             RaycastHit hit;
 
-            if(Physics.Raycast(pushedObject.transform.position, Vector3.up, out hit, 1.1f))
+            if (Physics.Raycast(pushedObject.transform.position, Vector3.up, out hit, 1.1f))
             {
-                if (hit.transform.CompareTag("Pushable")){
+                if (hit.transform.CompareTag("Pushable"))
+                {
                     return;
                 }
             }
 
             if (Physics.Raycast(pushedObject.transform.position, new Vector3(pushedObject.transform.position.x + horizontalMove, pushedObject.transform.position.y, pushedObject.transform.position.z), out hit, 1.1f))
-            { 
+            {
                 if (hit.transform.CompareTag("Player"))
                 {
-                    if(!stopPull)pushedObject.transform.position = Vector3.MoveTowards(pushedObject.transform.position, new Vector3(pushedObject.transform.position.x + horizontalMove * Time.deltaTime, pushedObject.transform.position.y, pushedObject.transform.position.z), speed * Time.deltaTime);
+                    if (!stopPull) pushedObject.transform.position = Vector3.MoveTowards(pushedObject.transform.position, new Vector3(pushedObject.transform.position.x + horizontalMove * Time.deltaTime, pushedObject.transform.position.y, pushedObject.transform.position.z), speed * Time.deltaTime);
                 }
                 else
                 {
