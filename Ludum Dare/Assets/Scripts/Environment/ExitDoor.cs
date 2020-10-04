@@ -4,15 +4,24 @@ using UnityEngine;
 
 public class ExitDoor : MonoBehaviour
 {
+    public static ExitDoor instance;
+
     [SerializeField] private GameObject shader;
 
-    public bool isInteractable = false;
+    public bool interactable = false;
 
-    // Start is called before the first frame update
+    void Awake()
+    {
+        if (instance == null)
+            instance = this;
+        else if (instance != this)
+            Destroy(gameObject);
+    }
+
     void Start()
     {
         shader.SetActive(false);
-        isInteractable = false;
+        interactable = false;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -20,7 +29,7 @@ public class ExitDoor : MonoBehaviour
         if (other.gameObject.tag == "Player")
         {
             shader.SetActive(true);
-            isInteractable = true;
+            interactable = true;
         }
     }
     private void OnTriggerExit(Collider other)
@@ -28,7 +37,7 @@ public class ExitDoor : MonoBehaviour
         if (other.gameObject.tag == "Player")
         {
             shader.SetActive(false);
-            isInteractable = false;
+            interactable = false;
         }
     }
 }
