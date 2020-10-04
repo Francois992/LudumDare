@@ -28,6 +28,7 @@ public class Character : MonoBehaviour
 
     public GameObject frozenCorpsePrefab;
     [SerializeField] private Transform spawnPosition;
+    [SerializeField] private ParticleSystem walkParticle;
 
     //[Header("Gravity")]
     //public float gravity = 20f;
@@ -80,6 +81,8 @@ public class Character : MonoBehaviour
 
             animator.SetBool("Idle", false);
             if (!isPushing) animator.SetBool("IsRunning", true);
+
+            walkParticle.Play();
         }
         else if (horizontalMove < 0)
         {
@@ -88,10 +91,13 @@ public class Character : MonoBehaviour
 
             animator.SetBool("Idle", false);
             if(!isPushing) animator.SetBool("IsRunning", true);
+            walkParticle.Play();
         }
         else if(horizontalMove == 0){
             animator.SetBool("IsRunning", false);
             animator.SetBool("Idle", true);
+
+            walkParticle.Stop();
         }
 
         if(!jump && !isPushing)CheckForPushable();
