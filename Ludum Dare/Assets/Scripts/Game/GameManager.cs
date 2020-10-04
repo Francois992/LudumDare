@@ -3,14 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.PlayerLoop;
-using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
-    bool takingAway = false;
-    [SerializeField] private Image timerImage;
-    [SerializeField] private Text loopsText;
-    [SerializeField] private Character character;
+    private bool isFading = false;
 
     public static GameManager instance;
     [Header("Timer")]
@@ -31,7 +27,7 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        loopsText.text = loopsRemaining + "/" + nbOfTimeLoopsMax;
+        UIManager.instance.UpdateLoopCounter(loopsRemaining, nbOfTimeLoopsMax);
     }
 
     private void Update()
@@ -40,8 +36,9 @@ public class GameManager : MonoBehaviour
         {
             UpdateTimer();
         }
-        else if (timer >= timeMax)
+        else if (timer >= timeMax && !isFading)
         {
+            isFading = true;
             EndTimeLoop();
         }
     }
@@ -54,18 +51,27 @@ public class GameManager : MonoBehaviour
         }
 
         timer += Time.deltaTime;
-
-        timerImage.fillAmount = timer / timeMax;
+        UIManager.instance.UpdateTimer(timer, timeMax);
     }
 
-    private void EndTimeLoop()
+    public void EndTimeLoop()
     {
         if (loopsRemaining < nbOfTimeLoopsMax)
         {
-            loopsRemaining++;
-            loopsText.text = loopsRemaining + "/" + nbOfTimeLoopsMax;
-            //character.ResetLoop();
-            timer = 0;
+            UIManager.instance.FadeIn(.5f, () =>
+            {
+                Character.instance.RestartLoop(() =>
+                {
+                    UIManager.instance.FadeOut(.5f, () =>
+                    {
+                        loopsRemaining++;
+                        timer = 0;
+                        UIManager.instance.UpdateLoopCounter(loopsRemaining, nbOfTimeLoopsMax);
+                        isFading = false;
+                        Character.instance.isFreezing = false;
+                    });
+                });
+            });
         }
         else
         {
