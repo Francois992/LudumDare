@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 3765241609468991771}
   - component: {fileID: 4619673315962774919}
   m_Layer: 8
-  m_Name: carton1
+  m_Name: carton1 1
   m_TagString: Pushable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -127,3 +127,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd0d21c2421e9d8498ba1f81c744c3d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  verticalSpeed: 0
+  fallSpeedMax: 10
+  gravity: 5
+  isGrounded: 0
+  detectionLayer:
+    serializedVersion: 2
+    m_Bits: 256
