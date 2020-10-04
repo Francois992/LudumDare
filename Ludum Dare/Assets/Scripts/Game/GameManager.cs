@@ -32,13 +32,12 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        if (timer < timeMax)
+        if (timer < timeMax && !isFading)
         {
             UpdateTimer();
         }
         else if (timer >= timeMax && !isFading)
         {
-            isFading = true;
             EndTimeLoop();
         }
     }
@@ -58,6 +57,7 @@ public class GameManager : MonoBehaviour
     {
         if (loopsRemaining < nbOfTimeLoopsMax)
         {
+            isFading = true;
             UIManager.instance.FadeIn(.5f, () =>
             {
                 Character.instance.RestartLoop(() =>
