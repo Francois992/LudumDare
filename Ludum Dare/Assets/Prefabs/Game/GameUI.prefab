@@ -191,8 +191,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timerImage: {fileID: 4113005194250655900}
-  timerFadeImage: {fileID: 0}
-  startLevelFadeImage: {fileID: 0}
+  timerFadeImage: {fileID: 4113005193503703584}
+  startLevelFadeImage: {fileID: 4113005195353094907}
   loopsText: {fileID: 4113005194682072265}
 --- !u!1 &4113005194250655903
 GameObject:
