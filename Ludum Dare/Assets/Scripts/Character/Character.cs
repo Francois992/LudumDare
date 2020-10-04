@@ -182,7 +182,7 @@ public class Character : MonoBehaviour
 
     public void RestartLoop(TweenCallback tweenCallback = null)
     {
-        Instantiate(frozenCorpsePrefab, new Vector3(transform.position.x, transform.position.y - .5f, transform.position.z), Quaternion.identity); ;
+        Instantiate(frozenCorpsePrefab, new Vector3(transform.position.x, transform.position.y + .3f, transform.position.z), Quaternion.identity); ;
         transform.DOMove(spawnPosition.position, 0f)
             .OnComplete(tweenCallback);
     }
