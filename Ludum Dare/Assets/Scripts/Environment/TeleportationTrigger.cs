@@ -15,7 +15,7 @@ public class TeleportationTrigger : MonoBehaviour
 
         if (other.gameObject.tag == "Player")
         {
-            other.transform.position = new Vector2(otherTrigger.transform.position.x, other.gameObject.transform.position.y);
+            other.transform.position = new Vector3(otherTrigger.transform.position.x, other.gameObject.transform.position.y, other.gameObject.transform.position.z);
             otherTrigger.isInsideTrigger = true;
         }
     }
