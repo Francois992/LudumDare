@@ -135,7 +135,6 @@ public class Character : MonoBehaviour
 
         if (rewiredPlayer.GetButtonDown("EndTimeLoop"))
         {
-
             if (isExiting)
                 return;
 
@@ -151,6 +150,18 @@ public class Character : MonoBehaviour
             if (!isExiting && ExitDoor.instance.interactable)
             {
                 GameManager.instance.FinishedLevel();
+                isExiting = true;
+            }
+        }
+        
+        if (rewiredPlayer.GetButtonDown("ReloadLevel"))
+        {
+            if (isExiting)
+                return;
+
+            if (!isExiting)
+            {
+                GameManager.instance.ReloadLevel();
                 isExiting = true;
             }
         }
