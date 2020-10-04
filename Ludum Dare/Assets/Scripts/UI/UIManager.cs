@@ -9,7 +9,9 @@ public class UIManager : MonoBehaviour
     public static UIManager instance;
 
     [SerializeField] private Image timerImage;
+    [SerializeField] private Button testbutton;
     [SerializeField] private Image fadeImage;
+    [SerializeField] private Image starFadeImage;
     [SerializeField] private Text loopsText;
 
 
@@ -25,6 +27,8 @@ public class UIManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        //starFadeImage.DOFade(1f, 0f);
+        starFadeImage.DOFade(0f, 1.5f);
         FadeOut(0f);
     }
 
