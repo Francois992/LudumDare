@@ -11917,7 +11917,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 5831306426073818861, guid: 462369fb278687e4c8cb69cd4e69b33e, type: 3}
       propertyPath: orthographic size
-      value: 19.742426
+      value: 6.7367153
       objectReference: {fileID: 0}
     - target: {fileID: 5831306426073818861, guid: 462369fb278687e4c8cb69cd4e69b33e, type: 3}
       propertyPath: m_BackGroundColor.r
