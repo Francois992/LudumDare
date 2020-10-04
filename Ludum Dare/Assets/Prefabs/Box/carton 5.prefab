@@ -111,6 +111,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd0d21c2421e9d8498ba1f81c744c3d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  verticalSpeed: 0
+  fallSpeedMax: 10
+  gravity: 5
+  isGrounded: 0
+  detectionLayer:
+    serializedVersion: 2
+    m_Bits: 256
 --- !u!54 &2872352206621738757
 Rigidbody:
   m_ObjectHideFlags: 0

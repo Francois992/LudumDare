@@ -132,7 +132,7 @@ public class Character : MonoBehaviour
 
             RaycastHit hit;
 
-            if(Physics.Raycast(pushedObject.transform.position, new Vector3(pushedObject.transform.position.x + horizontalMove, pushedObject.transform.position.y , pushedObject.transform.position.z), out hit, 1.1f))
+            if(Physics.Raycast(pushedObject.transform.position, new Vector3(pushedObject.transform.position.x + horizontalMove, pushedObject.transform.position.y , pushedObject.transform.position.z), out hit, 0.75f))
             {
                 Debug.Log("yes");
                 if (hit.transform.CompareTag("Player"))
