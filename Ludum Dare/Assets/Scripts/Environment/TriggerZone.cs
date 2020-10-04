@@ -20,7 +20,7 @@ public class TriggerZone : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Player") || other.CompareTag("Pushable"))
         {
             isTouching = true;
         }
@@ -28,7 +28,7 @@ public class TriggerZone : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Player") || other.CompareTag("Pushable"))
         {
             isTouching = false;
         }
