@@ -58,11 +58,11 @@ public class GameManager : MonoBehaviour
         if (loopsRemaining < nbOfTimeLoopsMax)
         {
             isFading = true;
-            UIManager.instance.FadeIn(.5f, () =>
+            UIManager.instance.TimeFadeIn(.5f, () =>
             {
                 Character.instance.RestartLoop(() =>
                 {
-                    UIManager.instance.FadeOut(.5f, () =>
+                    UIManager.instance.TimeFadeOut(.5f, () =>
                     {
                         loopsRemaining++;
                         timer = 0;
