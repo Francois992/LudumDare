@@ -132,12 +132,12 @@ public class Character : MonoBehaviour
 
             RaycastHit hit;
 
-            if(Physics.Raycast(pushedObject.transform.position, new Vector3(pushedObject.transform.position.x + horizontalMove, pushedObject.transform.position.y), out hit, 1.1f))
+            if(Physics.Raycast(pushedObject.transform.position, new Vector3(pushedObject.transform.position.x + horizontalMove, pushedObject.transform.position.y , pushedObject.transform.position.z), out hit, 1.1f))
             {
                 Debug.Log("yes");
                 if (hit.transform.CompareTag("Player"))
                 {
-                    pushedObject.transform.position = Vector3.MoveTowards(pushedObject.transform.position, new Vector2(pushedObject.transform.position.x + horizontalMove * Time.deltaTime, pushedObject.transform.position.y), speed * Time.deltaTime);
+                    pushedObject.transform.position = Vector3.MoveTowards(pushedObject.transform.position, new Vector3(pushedObject.transform.position.x + horizontalMove * Time.deltaTime, pushedObject.transform.position.y, pushedObject.transform.position.z), speed * Time.deltaTime);
                 }
                 else
                 {
@@ -148,7 +148,7 @@ public class Character : MonoBehaviour
             else
             {
                 Debug.Log("no");
-                pushedObject.transform.position = Vector3.MoveTowards(pushedObject.transform.position, new Vector2(pushedObject.transform.position.x + horizontalMove * Time.deltaTime, pushedObject.transform.position.y), speed * Time.deltaTime);
+                pushedObject.transform.position = Vector3.MoveTowards(pushedObject.transform.position, new Vector3(pushedObject.transform.position.x + horizontalMove * Time.deltaTime, pushedObject.transform.position.y, pushedObject.transform.position.z), speed * Time.deltaTime);
             }
             
         }
