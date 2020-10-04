@@ -109,7 +109,7 @@ public class Character : MonoBehaviour
         {
             if (hit.transform.CompareTag("Pushable"))
             {
-                if (rewiredPlayer.GetButton("Interact"))
+                if (rewiredPlayer.GetButton("Interact") && pushedObject == null)
                 {
                     isPushing = true;
                     pushedObject = hit.transform.GetComponent<Pushable>();
@@ -160,9 +160,15 @@ public class Character : MonoBehaviour
 
             RaycastHit hit;
 
-            if (Physics.Raycast(pushedObject.transform.position, new Vector3(pushedObject.transform.position.x + horizontalMove, pushedObject.transform.position.y, pushedObject.transform.position.z), out hit, 1.1f))
+            if(Physics.Raycast(pushedObject.transform.position, Vector3.up, out hit, 1.1f))
             {
-                Debug.Log("yes");
+                if (hit.transform.CompareTag("Pushable")){
+                    return;
+                }
+            }
+
+            if (Physics.Raycast(pushedObject.transform.position, new Vector3(pushedObject.transform.position.x + horizontalMove, pushedObject.transform.position.y, pushedObject.transform.position.z), out hit, 1.1f))
+            { 
                 if (hit.transform.CompareTag("Player"))
                 {
                     pushedObject.transform.position = Vector3.MoveTowards(pushedObject.transform.position, new Vector3(pushedObject.transform.position.x + horizontalMove * Time.deltaTime, pushedObject.transform.position.y, pushedObject.transform.position.z), speed * Time.deltaTime);
@@ -175,7 +181,6 @@ public class Character : MonoBehaviour
             }
             else
             {
-                Debug.Log("no");
                 pushedObject.transform.position = Vector3.MoveTowards(pushedObject.transform.position, new Vector3(pushedObject.transform.position.x + horizontalMove * Time.deltaTime, pushedObject.transform.position.y, pushedObject.transform.position.z), speed * Time.deltaTime);
             }
 
