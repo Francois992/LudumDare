@@ -88,6 +88,14 @@ public class GameManager : MonoBehaviour
         });
     }
 
+    public void ReloadLevel()
+    {
+        UIManager.instance.LevelFadeIn(1.5f, () =>
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        });
+    }
+
     private void GameOver()
     {
         throw new NotImplementedException();
