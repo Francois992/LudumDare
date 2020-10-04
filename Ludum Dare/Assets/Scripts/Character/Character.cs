@@ -1,4 +1,5 @@
-﻿using Rewired;
+﻿using DG.Tweening;
+using Rewired;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -8,6 +9,9 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class Character : MonoBehaviour
 {
+    public static Character instance;
+    public bool isFreezing = false;
+
     public Player rewiredPlayer;
     Rigidbody rb;
     float horizontalMove = 0f;
@@ -22,6 +26,9 @@ public class Character : MonoBehaviour
     public float fallSpeed = 10.0f;
     public LayerMask layerMask;
 
+    public GameObject frozenCorpsePrefab;
+    [SerializeField] private Transform spawnPosition;
+
     //[Header("Gravity")]
     //public float gravity = 20f;
     //public float fallSpeedMax = 10f;
@@ -30,14 +37,24 @@ public class Character : MonoBehaviour
     Vector3 initialGravity;
 
     private Vector3 OrientationFacing = Vector3.right;
+    private Vector3 OrientationStartPush;
+    private Vector3 ScaleStartPush;
 
+    private bool stopPull = false;
     private bool isPushing = false;
     private Pushable pushedObject;
+
+    [SerializeField] private Animator animator = null;
 
     void Awake()
     {
         rb = GetComponent<Rigidbody>();
         rewiredPlayer = ReInput.players.GetPlayer(0);
+
+        if (instance == null)
+            instance = this;
+        else if (instance != this)
+            Destroy(gameObject);
     }
 
     private void Start()
@@ -56,52 +73,127 @@ public class Character : MonoBehaviour
             jump = true;
         }
 
-        if (horizontalMove > 0) OrientationFacing = Vector3.right;
-        else if (horizontalMove < 0) OrientationFacing = Vector3.left;
+        if (horizontalMove > 0)
+        {
+            OrientationFacing = Vector3.right;
+            if (!isPushing) transform.localScale = new Vector3(1, transform.localScale.y, transform.localScale.z);
 
-        CheckForPushable();
+            animator.SetBool("Idle", false);
+            if (!isPushing) animator.SetBool("IsRunning", true);
+        }
+        else if (horizontalMove < 0)
+        {
+            OrientationFacing = Vector3.left;
+            if (!isPushing) transform.localScale = new Vector3(-1, transform.localScale.y, transform.localScale.z);
+
+            animator.SetBool("Idle", false);
+            if(!isPushing) animator.SetBool("IsRunning", true);
+        }
+        else if(horizontalMove == 0){
+            animator.SetBool("IsRunning", false);
+            animator.SetBool("Idle", true);
+        }
+
+        if(!jump && !isPushing)CheckForPushable();
+
+        
 
         if (isPushing)
         {
+            CheckPull();
+            animator.SetBool("Idle", false);
+
             if (!rewiredPlayer.GetButton("Interact"))
             {
                 isPushing = false;
                 speed = normalSpeed;
                 pushedObject = null;
+                animator.SetBool("Idle", true);
+                animator.SetBool("IsPush", false);
+                animator.SetBool("IsPull", false);
             }
         }
+
+        if (rewiredPlayer.GetButtonDown("EndTimeLoop"))
+        {
+            if (!isFreezing)
+            {
+                GameManager.instance.EndTimeLoop();
+                isFreezing = true;
+            }
+        }
+
     }
 
     void FixedUpdate()
     {
         Move(horizontalMove);
-        if(!isPushing)Jump();
+        if (!isPushing) Jump();
         jump = false;
         //UpdateGravity();
+    }
+
+    private void CheckPull()
+    {
+        RaycastHit hit;
+
+        if(OrientationFacing == OrientationStartPush)
+        {
+            animator.SetBool("IsPush", true);
+            animator.SetBool("IsPull", false);
+        }
+        else
+        {
+            animator.SetBool("IsPush", false);
+            animator.SetBool("IsPull", true);
+            if (Physics.Raycast(transform.position, OrientationFacing, out hit, .5f))
+            {
+                stopPull = true;
+            }
+        }
+
     }
 
     private void CheckForPushable()
     {
         RaycastHit hit;
 
-        if (Physics.Raycast(transform.position, OrientationFacing, out hit, .5f))
+        if (Physics.Raycast(transform.position, OrientationFacing, out hit, .5f, layerMask))
         {
             if (hit.transform.CompareTag("Pushable"))
             {
-                if (rewiredPlayer.GetButton("Interact"))
+                if (rewiredPlayer.GetButton("Interact") && pushedObject == null)
                 {
                     isPushing = true;
                     pushedObject = hit.transform.GetComponent<Pushable>();
+                    OrientationStartPush = OrientationFacing;
+                    ScaleStartPush = transform.localScale;
+                    animator.SetBool("IsPush", true);
+                    animator.SetBool("IsPull", false);
+                    animator.SetBool("IsRunning", false);
+                    animator.SetBool("Idle", false);
                 }
+                
             }
+            
         }
-       
+
+    }
+
+    public void RestartLoop(TweenCallback tweenCallback = null)
+    {
+        Instantiate(frozenCorpsePrefab, new Vector3(transform.position.x, transform.position.y + .3f, transform.position.z), Quaternion.identity); ;
+        transform.DOMove(spawnPosition.position, 0f)
+            .OnComplete(tweenCallback);
     }
 
     private void Jump()
     {
         if (isGrounded && jump)
         {
+            animator.SetBool("Jumping",true);
+            animator.SetBool("Idle",false);
+            animator.SetBool("IsRunning",false);
             rb.AddForce(Vector3.up * jumpForce);
             isGrounded = false;
         }
@@ -113,6 +205,8 @@ public class Character : MonoBehaviour
             if (Physics.Raycast(transform.position, Vector3.down, out hit, .55f, layerMask))
             {
                 Debug.Log("Did hit the ground");
+                animator.SetBool("Jumping", false);
+                animator.SetBool("Idle", true);
                 isGrounded = true;
             }
             else
@@ -132,25 +226,30 @@ public class Character : MonoBehaviour
 
             RaycastHit hit;
 
-            if(Physics.Raycast(pushedObject.transform.position, new Vector3(pushedObject.transform.position.x + horizontalMove, pushedObject.transform.position.y , pushedObject.transform.position.z), out hit, 1.1f))
+            if(Physics.Raycast(pushedObject.transform.position, Vector3.up, out hit, 1.1f))
             {
-                Debug.Log("yes");
+                if (hit.transform.CompareTag("Pushable")){
+                    return;
+                }
+            }
+
+            if (Physics.Raycast(pushedObject.transform.position, new Vector3(pushedObject.transform.position.x + horizontalMove, pushedObject.transform.position.y, pushedObject.transform.position.z), out hit, 1.1f))
+            { 
                 if (hit.transform.CompareTag("Player"))
                 {
-                    pushedObject.transform.position = Vector3.MoveTowards(pushedObject.transform.position, new Vector3(pushedObject.transform.position.x + horizontalMove * Time.deltaTime, pushedObject.transform.position.y, pushedObject.transform.position.z), speed * Time.deltaTime);
+                    if(!stopPull)pushedObject.transform.position = Vector3.MoveTowards(pushedObject.transform.position, new Vector3(pushedObject.transform.position.x + horizontalMove * Time.deltaTime, pushedObject.transform.position.y, pushedObject.transform.position.z), speed * Time.deltaTime);
                 }
                 else
                 {
 
                 }
-                
+
             }
             else
             {
-                Debug.Log("no");
                 pushedObject.transform.position = Vector3.MoveTowards(pushedObject.transform.position, new Vector3(pushedObject.transform.position.x + horizontalMove * Time.deltaTime, pushedObject.transform.position.y, pushedObject.transform.position.z), speed * Time.deltaTime);
             }
-            
+
         }
         //rb.velocity = new Vector2(rb.velocity.x, verticalSpeed);
     }
