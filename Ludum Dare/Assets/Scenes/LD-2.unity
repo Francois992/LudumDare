@@ -2045,6 +2045,10 @@ PrefabInstance:
       propertyPath: nbOfTimeLoopsMax
       value: 8
       objectReference: {fileID: 0}
+    - target: {fileID: 5869598603899721034, guid: ee9aea6524f1ac14fb6d444972dcd9f3, type: 3}
+      propertyPath: isLastLevel
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5869598603899721035, guid: ee9aea6524f1ac14fb6d444972dcd9f3, type: 3}
       propertyPath: m_Name
       value: GameManager

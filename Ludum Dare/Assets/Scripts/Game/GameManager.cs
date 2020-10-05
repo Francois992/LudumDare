@@ -18,6 +18,8 @@ public class GameManager : MonoBehaviour
     public int nbOfTimeLoopsMax = 15;
     private int loopsRemaining = 0;
 
+    [SerializeField] private bool isLastLevel = false;
+
     private void Awake()
     {
         if (instance == null)
@@ -85,10 +87,21 @@ public class GameManager : MonoBehaviour
 
     public void FinishedLevel()
     {
-        UIManager.instance.LevelFadeIn(1.5f, () =>
+        if (!isLastLevel)
         {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-        });
+            UIManager.instance.LevelFadeIn(1.5f, () =>
+            {
+                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            });
+        }
+        else
+        {
+            UIManager.instance.TimeFadeIn(1.5f, () =>
+            {
+                SceneManager.LoadScene("MainMenu");
+            });
+
+        }
     }
 
     public void ReloadLevel()
