@@ -91,7 +91,7 @@ public class GameManager : MonoBehaviour
         {
             UIManager.instance.LevelFadeIn(1.5f, () =>
             {
-                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
             });
         }
         else
