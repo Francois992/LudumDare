@@ -88,7 +88,7 @@ public class Character : MonoBehaviour
         if (horizontalMove > 0)
         {
             OrientationFacing = Vector3.right;
-            if (!isPushing) transform.localScale = new Vector3(1, transform.localScale.y, transform.localScale.z);
+            if (!isPushing) transform.eulerAngles = new Vector3(transform.eulerAngles.x, 0, transform.eulerAngles.z);
 
             animator.SetBool("Idle", false);
             if (!isPushing) animator.SetBool("IsRunning", true);
@@ -98,7 +98,7 @@ public class Character : MonoBehaviour
         else if (horizontalMove < 0)
         {
             OrientationFacing = Vector3.left;
-            if (!isPushing) transform.localScale = new Vector3(-1, transform.localScale.y, transform.localScale.z);
+            if (!isPushing) transform.eulerAngles = new Vector3(transform.eulerAngles.x, 180, transform.eulerAngles.z);
 
             animator.SetBool("Idle", false);
             if(!isPushing) animator.SetBool("IsRunning", true);
