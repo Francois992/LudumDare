@@ -490,24 +490,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3192251270379002925, guid: 6f61ce6ffe9732f4a821d92d50621bb0, type: 3}
-      propertyPath: animator
-      value: 
-      objectReference: {fileID: 1998921831}
-    - target: {fileID: 5866666020027017870, guid: 6f61ce6ffe9732f4a821d92d50621bb0, type: 3}
-      propertyPath: m_ApplyRootMotion
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5866666020027017870, guid: 6f61ce6ffe9732f4a821d92d50621bb0, type: 3}
-      propertyPath: m_WarningMessage
-      value: "\nBinding warning: Some generic clip(s) animate transforms that are
-        already bound by a Humanoid avatar. These transforms can only be changed
-        by Humanoid clips.\n\tTransform 'mixamorig:Hips'\n\tTransform 'mixamorig:LeftFoot'\n\tTransform
-        'mixamorig:LeftHandIndex1'\n\tTransform 'mixamorig:Spine1'\n\tTransform 'mixamorig:LeftToeBase'\n\tTransform
-        'mixamorig:RightArm'\n\tTransform 'mixamorig:LeftLeg'\n\tTransform 'mixamorig:LeftShoulder'\n\tTransform
-        'mixamorig:RightFoot'\n\tTransform 'mixamorig:Head'\n\tand more ...\n\tFrom
-        animation clip 'Pull'"
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6f61ce6ffe9732f4a821d92d50621bb0, type: 3}
 --- !u!1001 &854578427
@@ -753,11 +735,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fddca522c55aff8499a3efebc0407245, type: 3}
---- !u!95 &1998921831 stripped
-Animator:
-  m_CorrespondingSourceObject: {fileID: 5866666020027017870, guid: 6f61ce6ffe9732f4a821d92d50621bb0, type: 3}
-  m_PrefabInstance: {fileID: 840282486}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2067609168
 PrefabInstance:
   m_ObjectHideFlags: 0
