@@ -35,6 +35,11 @@ public class PressurePlate : MonoBehaviour
         }
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        SoundManager.instance.PlayPressurePlate();
+    }
+
     private void OnTriggerStay(Collider other)
     {
         if (other.gameObject.CompareTag("Player") || other.gameObject.CompareTag("Pushable"))

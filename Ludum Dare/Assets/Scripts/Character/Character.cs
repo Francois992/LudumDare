@@ -31,10 +31,9 @@ public class Character : MonoBehaviour
     [SerializeField] private Transform spawnPosition;
     [SerializeField] private ParticleSystem walkParticle;
 
-    //[Header("Gravity")]
-    //public float gravity = 20f;
-    //public float fallSpeedMax = 10f;
-    //public float verticalSpeed = 0f;
+    float maxDelayBetweenFootsteps = .2f;
+    float maxDelayBetweenFootstepsWhenPushing = .4f;
+    float delayBetweenFootsteps;
 
     Vector3 initialGravity;
 
@@ -57,6 +56,8 @@ public class Character : MonoBehaviour
             instance = this;
         else if (instance != this)
             Destroy(gameObject);
+
+        delayBetweenFootsteps = maxDelayBetweenFootsteps;
     }
 
     private void Start()
@@ -85,6 +86,11 @@ public class Character : MonoBehaviour
             }
         }
 
+        if (horizontalMove != 0 && isGrounded && !SoundManager.instance.isFootstepPlaying())
+        {
+            FootSteps();
+        }
+
         if (horizontalMove > 0)
         {
             OrientationFacing = Vector3.right;
@@ -101,7 +107,7 @@ public class Character : MonoBehaviour
             if (!isPushing) transform.localScale = new Vector3(-1, transform.localScale.y, transform.localScale.z);
 
             animator.SetBool("Idle", false);
-            if(!isPushing) animator.SetBool("IsRunning", true);
+            if (!isPushing) animator.SetBool("IsRunning", true);
             walkParticle.Play();
         }
         else if (horizontalMove == 0)
@@ -141,6 +147,7 @@ public class Character : MonoBehaviour
             if (!isFreezing)
             {
                 GameManager.instance.EndTimeLoop();
+
                 isFreezing = true;
             }
         }
@@ -153,7 +160,7 @@ public class Character : MonoBehaviour
                 isExiting = true;
             }
         }
-        
+
         if (rewiredPlayer.GetButtonDown("ReloadLevel"))
         {
             if (isExiting)
@@ -173,6 +180,34 @@ public class Character : MonoBehaviour
         if (!isPushing) Jump();
         jump = false;
         //UpdateGravity();
+    }
+
+    void FootSteps()
+    {
+        if (!isPushing)
+        {
+            if (delayBetweenFootsteps >= maxDelayBetweenFootsteps)
+            {
+                SoundManager.instance.PlayFootstep();
+                delayBetweenFootsteps = 0;
+            }
+            else
+            {
+                delayBetweenFootsteps += Time.deltaTime;
+            }
+        }
+        else
+        {
+            if (delayBetweenFootsteps >= maxDelayBetweenFootstepsWhenPushing)
+            {
+                SoundManager.instance.PlayFootstep();
+                delayBetweenFootsteps = 0;
+            }
+            else
+            {
+                delayBetweenFootsteps += Time.deltaTime;
+            }
+        }
     }
 
     private void CheckPull()
@@ -224,7 +259,8 @@ public class Character : MonoBehaviour
 
     public void RestartLoop(TweenCallback tweenCallback = null)
     {
-        Instantiate(frozenCorpsePrefab, new Vector3(transform.position.x, transform.position.y + .3f, transform.position.z), Quaternion.identity); ;
+        Instantiate(frozenCorpsePrefab, new Vector3(transform.position.x, transform.position.y + .3f, transform.position.z), Quaternion.identity);
+
         transform.DOMove(spawnPosition.position, 0f)
             .OnComplete(tweenCallback);
     }
@@ -237,6 +273,7 @@ public class Character : MonoBehaviour
             animator.SetBool("Idle", false);
             animator.SetBool("IsRunning", false);
             rb.AddForce(Vector3.up * jumpForce);
+            SoundManager.instance.PlayJump();
             isGrounded = false;
         }
 

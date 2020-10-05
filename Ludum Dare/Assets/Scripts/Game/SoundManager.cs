@@ -83,4 +83,11 @@ public class SoundManager : MonoBehaviour
     {
         timePassing.Stop();
     }
+
+    //------------------------- bool isPlaying---------------------------------------//
+
+    public bool isFootstepPlaying()
+    {
+        return footstep.isPlaying;
+    }
 }
