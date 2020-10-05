@@ -9,9 +9,8 @@ public class UIManager : MonoBehaviour
     public static UIManager instance;
 
     [SerializeField] private Image timerImage;
-    [SerializeField] private Button testbutton;
-    [SerializeField] private Image fadeImage;
-    [SerializeField] private Image starFadeImage;
+    [SerializeField] private Image timerFadeImage;
+    [SerializeField] private Image startLevelFadeImage;
     [SerializeField] private Text loopsText;
 
 
@@ -24,15 +23,14 @@ public class UIManager : MonoBehaviour
         else if (instance != this)
             Destroy(gameObject);
     }
-    // Start is called before the first frame update
+
     void Start()
     {
-        //starFadeImage.DOFade(1f, 0f);
-        starFadeImage.DOFade(0f, 1.5f);
-        FadeOut(0f);
+        startLevelFadeImage.DOFade(1f, 0f);
+        startLevelFadeImage.DOFade(0f, 1.5f);
+        TimeFadeOut(0f);
     }
 
-    // Update is called once per frame
     public void UpdateTimer(float timer, float timeMax)
     {
         timerImage.fillAmount = timer / timeMax;
@@ -43,15 +41,27 @@ public class UIManager : MonoBehaviour
         loopsText.text = loopsRemaining + "/" + nbOfTimeLoopsMax;
     }
 
-    public void FadeIn(float duration ,TweenCallback tweenCallback = null)
+    public void TimeFadeIn(float duration ,TweenCallback tweenCallback = null)
     {
-        fadeImage.DOFade(1f, duration)
+        timerFadeImage.DOFade(1f, duration)
             .OnComplete(tweenCallback);
     }
 
-    public void FadeOut(float duration, TweenCallback tweenCallback = null)
+    public void TimeFadeOut(float duration, TweenCallback tweenCallback = null)
     {
-        fadeImage.DOFade(0f, duration)
+        timerFadeImage.DOFade(0f, duration)
+            .OnComplete(tweenCallback);
+    }
+
+    public void LevelFadeIn(float duration, TweenCallback tweenCallback = null)
+    {
+        startLevelFadeImage.DOFade(1f, duration)
+            .OnComplete(tweenCallback);
+    }
+
+    public void LevelFadeOut(float duration, TweenCallback tweenCallback = null)
+    {
+        startLevelFadeImage.DOFade(0f, duration)
             .OnComplete(tweenCallback);
     }
 }
