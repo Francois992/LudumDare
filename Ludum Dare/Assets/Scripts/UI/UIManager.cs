@@ -9,6 +9,7 @@ public class UIManager : MonoBehaviour
     public static UIManager instance;
 
     [SerializeField] private Image timerImage;
+    [SerializeField] private Image timerCircleImage;
     [SerializeField] private Image timerFadeImage;
     [SerializeField] private Image startLevelFadeImage;
     [SerializeField] private Text loopsText;
@@ -34,6 +35,7 @@ public class UIManager : MonoBehaviour
     public void UpdateTimer(float timer, float timeMax)
     {
         timerImage.fillAmount = timer / timeMax;
+        timerCircleImage.fillAmount = timer / timeMax;
     }
 
     public void UpdateLoopCounter(int loopsRemaining, int nbOfTimeLoopsMax)
