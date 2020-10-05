@@ -32,7 +32,7 @@ public class MainMenu : MonoBehaviour
         startFadeInImage.DOFade(1f, 1.5f)
             .OnComplete(() =>
             {
-                SceneManager.LoadScene("TestCharacter");
+                SceneManager.LoadScene(1);
             });
 
         float actualVolume = menuMusic.volume;

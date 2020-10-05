@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.PlayerLoop;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -58,11 +59,11 @@ public class GameManager : MonoBehaviour
         if (loopsRemaining < nbOfTimeLoopsMax)
         {
             isFading = true;
-            UIManager.instance.FadeIn(.5f, () =>
+            UIManager.instance.TimeFadeIn(.5f, () =>
             {
                 Character.instance.RestartLoop(() =>
                 {
-                    UIManager.instance.FadeOut(.5f, () =>
+                    UIManager.instance.TimeFadeOut(.5f, () =>
                     {
                         loopsRemaining++;
                         timer = 0;
@@ -77,6 +78,22 @@ public class GameManager : MonoBehaviour
         {
             GameOver();
         }
+    }
+
+    public void FinishedLevel()
+    {
+        UIManager.instance.LevelFadeIn(1.5f, () =>
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        });
+    }
+
+    public void ReloadLevel()
+    {
+        UIManager.instance.LevelFadeIn(1.5f, () =>
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        });
     }
 
     private void GameOver()
