@@ -59,6 +59,9 @@ public class GameManager : MonoBehaviour
         if (loopsRemaining < nbOfTimeLoopsMax)
         {
             isFading = true;
+
+            SoundManager.instance.PlayTimeDistortion();
+
             UIManager.instance.TimeFadeIn(.5f, () =>
             {
                 Character.instance.RestartLoop(() =>
