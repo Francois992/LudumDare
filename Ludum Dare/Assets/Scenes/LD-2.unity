@@ -1704,7 +1704,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 66849e207b1e16c41ac75d03c511c11b, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 10.28
+      value: 9.54
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 66849e207b1e16c41ac75d03c511c11b, type: 3}
       propertyPath: m_LocalPosition.z
@@ -2037,6 +2037,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 5869598603899721034, guid: ee9aea6524f1ac14fb6d444972dcd9f3, type: 3}
+      propertyPath: timeMax
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 5869598603899721034, guid: ee9aea6524f1ac14fb6d444972dcd9f3, type: 3}
+      propertyPath: nbOfTimeLoopsMax
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 5869598603899721035, guid: ee9aea6524f1ac14fb6d444972dcd9f3, type: 3}
       propertyPath: m_Name
       value: GameManager
@@ -5175,7 +5183,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2419098726796448890, guid: 7985d56654d66aa4b94896c8c0b7da21, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 10.26
+      value: 9.52
       objectReference: {fileID: 0}
     - target: {fileID: 2419098726796448890, guid: 7985d56654d66aa4b94896c8c0b7da21, type: 3}
       propertyPath: m_LocalPosition.z
@@ -8987,7 +8995,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1513910582}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 8.28, y: 6.99, z: 7.71}
+  m_LocalPosition: {x: 8.28, y: 6.25, z: 7.71}
   m_LocalScale: {x: 4.375863, y: 1, z: 5.554616}
   m_Children: []
   m_Father: {fileID: 1896777223}
@@ -12517,6 +12525,14 @@ PrefabInstance:
       propertyPath: spawnPosition
       value: 
       objectReference: {fileID: 1798674839}
+    - target: {fileID: 3192251270379002925, guid: 6f61ce6ffe9732f4a821d92d50621bb0, type: 3}
+      propertyPath: jumpForce
+      value: 550
+      objectReference: {fileID: 0}
+    - target: {fileID: 3192251270379002925, guid: 6f61ce6ffe9732f4a821d92d50621bb0, type: 3}
+      propertyPath: speed
+      value: 5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6f61ce6ffe9732f4a821d92d50621bb0, type: 3}
 --- !u!4 &2085807794 stripped
